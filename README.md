@@ -1,2 +1,2 @@
-# 42_SP
+# Projetos_42_SP
 Estudos durante a formação na 42SP
