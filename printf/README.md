@@ -54,7 +54,29 @@ Compile your program linking the `libftprintf.a` library:
 cc your_program.c libftprintf.a -o your_program
 
 ```
+Example:
 
+```c
+#include "ft_printf.h"
+#include <stdio.h>
+
+int	main(void)
+{
+	int	count1;
+	int	count2;
+
+	count1 = ft_printf("Char: %c | String: %s\n", 'A', "Teste 42");
+	count2 = printf("Char: %c | String: %s\n", 'A', "Teste 42");
+	count1 += ft_printf("Int: %d | Hex: %x | Pointer: %p\n", 42, 42, &count1);
+	count2 += printf("Int: %d | Hex: %x | Pointer: %p\n", 42, 42, &count1);
+	count1 += ft_printf("Porcents: %%\n");
+	count2 += printf("Porcents: %%\n");
+	printf("\n --- Resultado (Retorno da função) ---\n");
+	printf("Seu ft_print retornou: %d\n", count1);
+	printf("O printf original retornou: %d\n", count2);
+	return (0);
+}
+```
 ---
 
 ## Resources
@@ -104,6 +126,38 @@ The project was entirely developed in accordance with the strict style guideline
 * **%X**: Prints an uppercase hexadecimal number.
 * **%%**: Prints a literal percent sign.
 
+It has the following functions:
+
+`printf:` static int ft_check_format(char format, va_list args).
+
+int ft_printf(const char *format, ...).
+
+`ft_printf_utils.c` handles characters (%c) and strings (%s):
+
+It has the following functions:
+
+`%c:` int ft_printf_char(int c).
+
+`%s:` int ft_printf_string(char *s).
+
+`ft_printf_numbers.c` handles signed integers (%d) and unsigned integers (%u):
+
+It has the following functions:
+
+`%d || %i:` ft_printf_int(int n).
+
+`%u:` ft_printf_unsigned(unsigned int n).
+
+`ft_printf_hex.c` handles common hexadecimal characters (%x) and (%X), and pointer addresses (%p):
+
+It has the following functions:
+
+`%x and %X:` int ft_printf_hex(unsigned int n, char format).
+
+static int ft_printf_hex_ptr(unsigned long long n).
+
+int ft_printf_ptr(unsigned long long ptr).
+
 ## Fundamental Learnings
 
 The development of this project consolidated deep low-level programming and computer architecture concepts:
@@ -113,7 +167,8 @@ The development of this project consolidated deep low-level programming and comp
 * **Type and Memory Architecture**: Using `unsigned int` (32 bits) to handle standard hexadecimal numbers (`%x`/`%X`) and `unsigned long long` (64 bits) to read the full memory addresses of pointers (`%p`) without data loss or truncation.
 * **Recursion and Stack Management**: Applying recursive calls to perform mathematical conversions across numeric bases (Base 10 and Base 16), leveraging the natural behavior of the call stack to order digits without wasting memory on dynamic allocations (`malloc`).
 * **Robustness and Error Handling**: Shielding the code against catastrophic failures (*Segmentation Fault*), including dedicated handling for the lower bound of integers (`-2147483648`) and protections for null pointers (`NULL`) in strings and pointers.
-* **Encapsulamento com `static`**: Using static functions to limit code scope and protect helper functions, keeping the library clean, organized, and professional.
+* **Encapsulation with `static`**: Using static functions to limit code scope and protect helper functions, keeping the library clean, organized, and professional.
+
 ---
 
 Author

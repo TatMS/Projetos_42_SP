@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tate <tate@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tatmarti <tatmarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 18:36:59 by tatmarti          #+#    #+#             */
-/*   Updated: 2026/06/25 19:23:20 by tate             ###   ########.fr       */
+/*   Updated: 2026/07/02 17:08:37 by tatmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_check_format(char format, va_list args)
+static int	ft_check_format(char format, va_list args)
 {
 	int	count;
 
@@ -31,8 +31,6 @@ int	ft_check_format(char format, va_list args)
 		count += ft_print_hex(va_arg(args, unsigned int), format);
 	else if (format == '%')
 		count += write(1, "%", 1);
-	//else if (format == 'a')
-		//count += ft_print_string("string definida");
 	return (count);
 }
 
@@ -49,15 +47,14 @@ int	ft_printf(const char *format, ...)
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] != '\0')
 		{
 			i++;
 			count += ft_check_format(format[i], args);
 		}
-		else
+		else if (format[i] != '%')
 		{
-			write(1, &format[i], 1);
-			count++;
+			count += write(1, &format[i], 1);
 		}
 		i++;
 	}
